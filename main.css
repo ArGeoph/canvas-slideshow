@@ -50,6 +50,11 @@ h1 {
     font-size: 1.4em;
     border-radius: 5px;
 }
+
+.arrows:hover {
+    border: 2px solid rgba(68, 144, 231, 0.8);
+}
+
 .controlButtons, .effects {
     width: 140px;
     height: 50px;
@@ -74,5 +79,10 @@ label {
 }
 button:hover, .effects:hover, option:hover {
     background-color: rgba(68, 144, 231, 0.8);
+    border: none;
+}
+
+.arrows:disabled, .arrows:disabled:hover, #backwardForwardButton:disabled, #backwardForwardButton:disabled:hover {
+    background-color: rgba(112, 112, 112, 0.8);
     border: none;
 }

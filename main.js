@@ -1,6 +1,6 @@
 //HTML objects that will be used in application
 let canvasObject, canvasContext;
-let startStopButton, randomSequentialButton, backwardForwardButton, effectsList;
+let backButton, forwardButton, startStopButton, randomSequentialButton, backwardForwardButton, effectsList;
 let imagesDetails, preloadedImages = [], shuffledImages = []; //Array which will be used to store information about pictures loaded from .json file
 let slideshowStarted = false, slideshowInterval, slideshowSpeed, slideshowSpeedController, imageCounter = 0, imageIncrement = 1; //Flags used to control slideshow
 
@@ -15,6 +15,8 @@ const initialize = () => {
     effectsList = document.getElementById("effectsList");
     slideshowSpeedController = document.getElementById("slideshowSpeed");
     slideshowSpeed = slideshowSpeedController.value * 1000;
+    backButton = document.getElementById("backButton");
+    forwardButton = document.getElementById("forwardButton");
 
     //Preload all images to array
     loadPicturesDetails().then((images) => preloadImages(images));
@@ -38,38 +40,8 @@ const initialize = () => {
     randomSequentialButton.addEventListener("click", randomSequential, false);
     backwardForwardButton.addEventListener("click", changeSlideshowDirection, false);
     // effectsList.addEventListener("change", setCurrentEffect, false);
-    document.getElementById("backButton").addEventListener("click", function() {
-  
-        if (imageIncrement === 1) {
-           
-
-            if (imageCounter === 0) {
-                imageCounter = preloadedImages.length - 1;
-            }
-            else {
-                imageCounter--;
-            }
-            
-        }
-        else if (imageIncrement === -1) {        
-
-            if (imageCounter > preloadedImages.length - 1) {
-                imageCounter = 0;
-            }
-        }
-
-
-        if (slideshowStarted) {
-            clearInterval(slideshowInterval);
-            slideshowInterval = setInterval(showPictures, slideshowSpeed);
-        }
-        else {
-            showPictures();
-        }
-        
-    }, false);
-
-    document.getElementById("forwardButton").addEventListener("click", () => {
+    backButton.addEventListener("click", backButtonBehavior, false);
+    forwardButton.addEventListener("click", () => {
 
         if (slideshowStarted && imageIncrement === -1) {
             clearInterval(slideshowInterval);
@@ -85,11 +57,21 @@ const initialize = () => {
             showPictures();
         }
        
-    }, false);
-
-   
+    }, false);   
 };
 
+const backButtonBehavior = () => {
+    if (imageCounter === 0) {
+        imageCounter = preloadedImages.length - 1;
+        showPictures();        
+        imageCounter = preloadedImages.length - 1;
+    }
+    else {        
+        imageCounter--;
+        showPictures();
+        imageCounter--;   
+    }    
+}
 
 //
 const preloadImages = async (images) => {
@@ -100,24 +82,21 @@ const preloadImages = async (images) => {
         tmp.src = images[imageIndex].fileLocation;
 
         tmp.addEventListener("load", function(event) {
-            addImages(event, imageIndex);
+            addImages(event, images[imageIndex].caption, imageIndex);
         }, false);       
     }
-
-    console.log("Not shuffled pictures");
-    console.log(preloadedImages);
 
     return preloadedImages;
 };
 
-const addImages = (event, imageIndex) => {
-    preloadedImages[imageIndex] = event.currentTarget;
+const addImages = (event, imageCaption, imageIndex) => {
+    preloadedImages[imageIndex] = {"imageFile" : event.currentTarget, "imageCaption" : imageCaption};
 }
 
 //Function changing slideshow flow direction
-const changeSlideshowDirection = (event) => {
-    if (event.currentTarget.innerHTML === "Backward") {
-        event.currentTarget.innerHTML = "Forward";
+const changeSlideshowDirection = () => {
+    if (backwardForwardButton.innerHTML === "Backward") {
+        backwardForwardButton.innerHTML = "Forward";
         if (imageCounter === 0) {
             imageCounter = preloadedImages.length - 1;
         }
@@ -128,15 +107,14 @@ const changeSlideshowDirection = (event) => {
         imageIncrement = -1;
     }
     else {
-        event.currentTarget.innerHTML = "Backward";
+        backwardForwardButton.innerHTML = "Backward";
         
         if (imageCounter === preloadedImages.length - 1) {
             imageCounter = 0;
         }
         else {
             imageCounter++;
-        }
-       
+        }       
         imageIncrement = 1;
     }
     
@@ -187,15 +165,22 @@ const loadPicturesDetails = async () => {
         console.log(networkError);
     }
 }
-//Function shuffling c
 
 const startStopSlideshow = () => {
     if (slideshowStarted) {
+        //Enable back and forward buttons (with arrows) when slideshow is not active
+        backButton.disabled = false;
+        forwardButton.disabled = false;
+
         startStopButton.innerHTML = "Start";
         slideshowStarted = false;
         clearInterval(slideshowInterval);
     }
     else {
+        //Disable back and forward buttons (with arrows) when slideshow is active
+        backButton.disabled = true;
+        forwardButton.disabled = true;
+        
         showPictures();
         slideshowStarted = true;
         startStopButton.innerHTML = "Stop";       
@@ -205,21 +190,27 @@ const startStopSlideshow = () => {
 
 //Function switching from sequential to random showing
 const randomSequential = () => {
-    // if (slideshowStarted) {
-    //      clearInterval(slideshowInterval);
-    // }
-
     if (randomSequentialButton.innerHTML === "Random") {
+        //Disable backwardForward button when in the random mode
+        backwardForwardButton.disabled = true;
+        
+        //Turn the show forward, it it was in backward mode
+        if (backwardForwardButton.innerHTML === "Forward") {
+            changeSlideshowDirection();
+        }        
+        //Shuffle images 
         shuffleImages();
         randomSequentialButton.innerHTML = "Sequential";
-
+        //Save array with pictures to return to sequential mode later
         let tmp = preloadedImages;
         preloadedImages = shuffledImages;
         shuffledImages = tmp;
     }
     else if (randomSequentialButton.innerHTML === "Sequential") {
         randomSequentialButton.innerHTML = "Random";
+        backwardForwardButton.disabled = false;
 
+        //Save array with pictures to return to random mode later
         let tmp = preloadedImages;
         preloadedImages = shuffledImages;
         shuffledImages = tmp;
@@ -229,10 +220,9 @@ const randomSequential = () => {
 //Function shuffling images
 const shuffleImages =  () => {
     let currentIndex, maximumIndex = preloadedImages.length; 
-    shuffledImages = []; 
-    
+    shuffledImages = [];     
 
-    preloadedImages.forEach((picture, index) => {
+    preloadedImages.forEach((picture) => {
 
         while(true) {
             currentIndex = Math.floor(maximumIndex * Math.random());
@@ -261,20 +251,18 @@ const showPictures = () => {
     canvasContext.fillStyle = "blue";
     canvasContext.textAlign = "center";
     
-    let scalingFactor = canvasObject.height / preloadedImages[imageCounter].height; 
+    let scalingFactor = canvasObject.height / preloadedImages[imageCounter].imageFile.height; 
 
-    if (preloadedImages[imageCounter].width < preloadedImages[imageCounter].height) { //if image has potrait orientation  
-
-        canvasContext.drawImage(preloadedImages[imageCounter],  0.5 * (canvasObject.width - scalingFactor*preloadedImages[imageCounter].width), 0, 
-        scalingFactor * preloadedImages[imageCounter].width, scalingFactor * preloadedImages[imageCounter].height);    
+    if (preloadedImages[imageCounter].imageFile.width < preloadedImages[imageCounter].imageFile.height) { //if image has potrait orientation  
+        canvasContext.drawImage(preloadedImages[imageCounter].imageFile,  0.5 * (canvasObject.width - scalingFactor*preloadedImages[imageCounter].imageFile.width), 0, 
+        scalingFactor * preloadedImages[imageCounter].imageFile.width, scalingFactor * preloadedImages[imageCounter].imageFile.height);    
     }
-    else if (preloadedImages[imageCounter].width >= preloadedImages[imageCounter].height) { //if image has landscape orientation    
-        canvasContext.drawImage(preloadedImages[imageCounter],  0.5 * (canvasObject.width - scalingFactor*preloadedImages[imageCounter].width), 0, 
-        scalingFactor * preloadedImages[imageCounter].width, scalingFactor * preloadedImages[imageCounter].height);  
-                        
+    else if (preloadedImages[imageCounter].imageFile.width >= preloadedImages[imageCounter].imageFile.height) { //if image has landscape orientation    
+        canvasContext.drawImage(preloadedImages[imageCounter].imageFile,  0.5 * (canvasObject.width - scalingFactor*preloadedImages[imageCounter].imageFile.width), 0, 
+        scalingFactor * preloadedImages[imageCounter].imageFile.width, scalingFactor * preloadedImages[imageCounter].imageFile.height);                          
     }
 
-    canvasContext.fillText(imagesDetails[imageCounter].caption, 500,  550);  
+    canvasContext.fillText(preloadedImages[imageCounter].imageCaption, 500,  550);  
 
     if (imageIncrement === 1 && imageCounter === preloadedImages.length-1) {
         imageCounter = 0;

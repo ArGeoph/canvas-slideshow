@@ -10,8 +10,6 @@
     {"fileLocation": "Pictures/IMG_1998.JPG", "caption": "The Parlament building, Vienna, Austia"},
     {"fileLocation": "Pictures/IMG_2032.JPG", "caption": "The Fragrant Hills Park, Beijing, China"},
     {"fileLocation": "Pictures/IMG_2108.JPG", "caption": "The Powder Tower, Prague, Czech Republic"},
-
-
     {"fileLocation": "Pictures/IMG_2114.JPG", "caption": "The Vienna State Opera, Vienna, Austria"},
     {"fileLocation": "Pictures/IMG_2137.JPG", "caption": "The Dancing Building, Prague, Czech Republic"},
     {"fileLocation": "Pictures/IMG_2184.JPG", "caption": "The Prague Castle, Prague, Czech Republic"},
@@ -23,7 +21,6 @@
     {"fileLocation": "Pictures/IMG_2534.JPG", "caption": "Saint Basil's Cathedral, Moscow, Russia"},
     {"fileLocation": "Pictures/IMG_2576.JPG", "caption": "The Triumphal Arch of Moscow, Moscow, Russia"},
     {"fileLocation": "Pictures/IMG_2907.JPG", "caption": "The Church of the Holy Sepulchre, Jerusalem, Israel"},
-
     {"fileLocation": "Pictures/IMG_3759.JPG", "caption": "Sigiria, Sri Lanka"},
     {"fileLocation": "Pictures/IMG_4204.JPG", "caption": "The Registan, Samarkand, Uzbekistan"},
     {"fileLocation": "Pictures/IMG_4246.JPG", "caption": "The Gūr-i Amīr, Samarkand, Uzbekistan"},
@@ -31,5 +28,4 @@
     {"fileLocation": "Pictures/IMG_5724.JPG", "caption": "The Burj Khalifa, Dubai, UAE"},
     {"fileLocation": "Pictures/IMG_8992.JPG", "caption": "The Merlion, Singapore"},
     {"fileLocation": "Pictures/IMG_9898.JPG", "caption": "The Hampi, Karnataka, India"}
-
 ]}
