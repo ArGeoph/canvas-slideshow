@@ -1,13 +1,35 @@
 {"pictures" : [
-    {"fileLocation": "Pictures/IMG_0384.JPG", "caption": "The Forbidden Palace, Beijing, China"},
-    {"fileLocation": "Pictures/IMG_0547.JPG", "caption": "Museum, Berlin, Germany"},
-    {"fileLocation": "Pictures/IMG_0787.JPG", "caption": "Germany"},
-    {"fileLocation": "Pictures/IMG_0908.JPG", "caption": "Germany"},
-    {"fileLocation": "Pictures/IMG_1023.JPG", "caption": "The Forbidden Palace, Beijing, China"},
-    {"fileLocation": "Pictures/IMG_1217.JPG", "caption": "Neuschwanstein Castle, Germany"},
-    {"fileLocation": "Pictures/IMG_1420.JPG", "caption": "Austria"},
-    {"fileLocation": "Pictures/IMG_1691.JPG", "caption": "The Roayl Palace, Vienna, Austia"},
-    {"fileLocation": "Pictures/IMG_1998.JPG", "caption": "The goverment building, Vienna, Austia"},
-    {"fileLocation": "Pictures/IMG_2032.JPG", "caption": "Park, Beijing, China"},
-    {"fileLocation": "Pictures/IMG_2108.JPG", "caption": "Castle, Prague, Chezch Republic"}
+    {"fileLocation": "Pictures/IMG_0384.JPG", "caption": "The Forbidden City, Beijing, China"},
+    {"fileLocation": "Pictures/IMG_0547.JPG", "caption": "The National Gallery, Berlin, Germany"},
+    {"fileLocation": "Pictures/IMG_0787.JPG", "caption": "The Arch of University of Potsdam and New Palace, Germany"},
+    {"fileLocation": "Pictures/IMG_0908.JPG", "caption": "Marienplatz, Munich, Germany"},
+    {"fileLocation": "Pictures/IMG_1023.JPG", "caption": "The Old city, Nürnberg, Germany"},
+    {"fileLocation": "Pictures/IMG_1217.JPG", "caption": "The Neuschwanstein Castle, Germany"},
+    {"fileLocation": "Pictures/IMG_1420.JPG", "caption": "Hallstatt, Austria"},
+    {"fileLocation": "Pictures/IMG_1691.JPG", "caption": "The Schönbrunn Palace, Vienna, Austia"},
+    {"fileLocation": "Pictures/IMG_1998.JPG", "caption": "The Parlament building, Vienna, Austia"},
+    {"fileLocation": "Pictures/IMG_2032.JPG", "caption": "The Fragrant Hills Park, Beijing, China"},
+    {"fileLocation": "Pictures/IMG_2108.JPG", "caption": "The Powder Tower, Prague, Czech Republic"},
+
+
+    {"fileLocation": "Pictures/IMG_2114.JPG", "caption": "The Vienna State Opera, Vienna, Austria"},
+    {"fileLocation": "Pictures/IMG_2137.JPG", "caption": "The Dancing Building, Prague, Czech Republic"},
+    {"fileLocation": "Pictures/IMG_2184.JPG", "caption": "The Prague Castle, Prague, Czech Republic"},
+    {"fileLocation": "Pictures/IMG_2299.JPG", "caption": "The Semper Opera House, Drezden, Germany"},
+    {"fileLocation": "Pictures/IMG_2366.JPG", "caption": "The Peterhof Palace, Saint Petersburg, Russia"},
+    {"fileLocation": "Pictures/IMG_2440.JPG", "caption": "The Admiralty building, Saint Petersburg, Russia"},
+    {"fileLocation": "Pictures/IMG_2447.JPG", "caption": "The Church of the Savior on Blood, Saint Petersburg, Russia"},
+    {"fileLocation": "Pictures/IMG_2461.JPG", "caption": "The Palace Bridge, Saint Petersburg, Russia "},
+    {"fileLocation": "Pictures/IMG_2534.JPG", "caption": "Saint Basil's Cathedral, Moscow, Russia"},
+    {"fileLocation": "Pictures/IMG_2576.JPG", "caption": "The Triumphal Arch of Moscow, Moscow, Russia"},
+    {"fileLocation": "Pictures/IMG_2907.JPG", "caption": "The Church of the Holy Sepulchre, Jerusalem, Israel"},
+
+    {"fileLocation": "Pictures/IMG_3759.JPG", "caption": "Sigiria, Sri Lanka"},
+    {"fileLocation": "Pictures/IMG_4204.JPG", "caption": "The Registan, Samarkand, Uzbekistan"},
+    {"fileLocation": "Pictures/IMG_4246.JPG", "caption": "The Gūr-i Amīr, Samarkand, Uzbekistan"},
+    {"fileLocation": "Pictures/IMG_5358.JPG", "caption": "The Sheikh Zayed Grand Mosque, Abu Dhabi, UAE"},
+    {"fileLocation": "Pictures/IMG_5724.JPG", "caption": "The Burj Khalifa, Dubai, UAE"},
+    {"fileLocation": "Pictures/IMG_8992.JPG", "caption": "The Merlion, Singapore"},
+    {"fileLocation": "Pictures/IMG_9898.JPG", "caption": "The Hampi, Karnataka, India"}
+
 ]}

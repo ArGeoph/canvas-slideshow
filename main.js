@@ -1,7 +1,7 @@
 //HTML objects that will be used in application
 let canvasObject, canvasContext;
 let startStopButton, randomSequentialButton, backwardForwardButton, effectsList;
-let imagesDetails, preloadedImages = []; //Array which will be used to store information about pictures loaded from .json file
+let imagesDetails, preloadedImages = [], shuffledImages = []; //Array which will be used to store information about pictures loaded from .json file
 let slideshowStarted = false, slideshowInterval, slideshowSpeed, slideshowSpeedController, imageCounter = 0, imageIncrement = 1; //Flags used to control slideshow
 
 //Function called to initialize all objects when page is loaded for the first time
@@ -15,36 +15,43 @@ const initialize = () => {
     effectsList = document.getElementById("effectsList");
     slideshowSpeedController = document.getElementById("slideshowSpeed");
     slideshowSpeed = slideshowSpeedController.value * 1000;
+
     //Preload all images to array
-    loadPicturesDetails().then((images) => {
-        preloadImages(images);
-    });
+    loadPicturesDetails().then((images) => preloadImages(images));
     
-    
+    //Shuffle image for random mode
+
+
+
     slideshowSpeedController.addEventListener("change", () => {
         slideshowSpeed = slideshowSpeedController.value * 1000;
         console.log("Slideshow speed changed to " + slideshowSpeed + " seconds");
 
-        clearInterval(slideshowInterval);
-        slideshowInterval = setInterval(showPictures, slideshowSpeed);
+        if (slideshowStarted) {
+            clearInterval(slideshowInterval);
+            slideshowInterval = setInterval(showPictures, slideshowSpeed);
+        } 
     }, false);
 
     //Add event listeners to html objects
     startStopButton.addEventListener("click", startStopSlideshow, false);
-    // randomSequentialButton.addEventListener("click", shufflePictures, false);
+    randomSequentialButton.addEventListener("click", randomSequential, false);
     backwardForwardButton.addEventListener("click", changeSlideshowDirection, false);
     // effectsList.addEventListener("change", setCurrentEffect, false);
     document.getElementById("backButton").addEventListener("click", function() {
   
         if (imageIncrement === 1) {
-            imageCounter--;
+           
 
-            if (imageCounter < 0) {
+            if (imageCounter === 0) {
                 imageCounter = preloadedImages.length - 1;
             }
+            else {
+                imageCounter--;
+            }
+            
         }
-        else {
-            imageCounter++;
+        else if (imageIncrement === -1) {        
 
             if (imageCounter > preloadedImages.length - 1) {
                 imageCounter = 0;
@@ -79,42 +86,64 @@ const initialize = () => {
         }
        
     }, false);
+
+   
 };
 
 
 //
-const preloadImages = (images) => {
-    console.log(images.length);
+const preloadImages = async (images) => {
     let tmp;
+
     for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
-       // console.log(`Image ${imageIndex} has been preloaded`);
         tmp = new Image();
         tmp.src = images[imageIndex].fileLocation;
 
-        tmp.addEventListener("load", addImages, false);       
+        tmp.addEventListener("load", function(event) {
+            addImages(event, imageIndex);
+        }, false);       
     }
+
+    console.log("Not shuffled pictures");
+    console.log(preloadedImages);
+
+    return preloadedImages;
 };
 
-const addImages = (event) => {
-    preloadedImages.push(event.currentTarget);
+const addImages = (event, imageIndex) => {
+    preloadedImages[imageIndex] = event.currentTarget;
 }
 
 //Function changing slideshow flow direction
 const changeSlideshowDirection = (event) => {
-    clearInterval(slideshowInterval);
-
     if (event.currentTarget.innerHTML === "Backward") {
         event.currentTarget.innerHTML = "Forward";
-        imageCounter--;
+        if (imageCounter === 0) {
+            imageCounter = preloadedImages.length - 1;
+        }
+        else {
+            imageCounter--;
+        }
+       
         imageIncrement = -1;
     }
     else {
         event.currentTarget.innerHTML = "Backward";
-        imageCounter++;
+        
+        if (imageCounter === preloadedImages.length - 1) {
+            imageCounter = 0;
+        }
+        else {
+            imageCounter++;
+        }
+       
         imageIncrement = 1;
     }
     
-    slideshowInterval = setInterval(showPictures, slideshowSpeed);
+    if (slideshowStarted) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = setInterval(showPictures, slideshowSpeed);
+    } 
 };
 
 // //Function sending asyncrnous request to fetch data from .json file and store it as a JavaScript array
@@ -174,6 +203,52 @@ const startStopSlideshow = () => {
     }    
 };
 
+//Function switching from sequential to random showing
+const randomSequential = () => {
+    // if (slideshowStarted) {
+    //      clearInterval(slideshowInterval);
+    // }
+
+    if (randomSequentialButton.innerHTML === "Random") {
+        shuffleImages();
+        randomSequentialButton.innerHTML = "Sequential";
+
+        let tmp = preloadedImages;
+        preloadedImages = shuffledImages;
+        shuffledImages = tmp;
+    }
+    else if (randomSequentialButton.innerHTML === "Sequential") {
+        randomSequentialButton.innerHTML = "Random";
+
+        let tmp = preloadedImages;
+        preloadedImages = shuffledImages;
+        shuffledImages = tmp;
+    }
+};
+
+//Function shuffling images
+const shuffleImages =  () => {
+    let currentIndex, maximumIndex = preloadedImages.length; 
+    shuffledImages = []; 
+    
+
+    preloadedImages.forEach((picture, index) => {
+
+        while(true) {
+            currentIndex = Math.floor(maximumIndex * Math.random());
+
+            if (typeof shuffledImages[currentIndex] === 'undefined') {
+                shuffledImages[currentIndex] = picture; 
+
+                break;
+            }            
+        }      
+    });
+
+    console.log("Shuffled pictures");
+    console.log(shuffledImages);
+}
+
 //Function used to show pictures on the canvas
 const showPictures = () => {
     //Clear canvas to draw new image
@@ -181,7 +256,7 @@ const showPictures = () => {
 
     console.log(imageCounter);
     //Set caption parameters
-    canvasContext.font = "bold 34px sans-serif";
+    canvasContext.font = "bold 30px sans-serif";
     canvasContext.textBaseline = "bottom";
     canvasContext.fillStyle = "blue";
     canvasContext.textAlign = "center";
