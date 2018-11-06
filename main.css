@@ -1,0 +1,78 @@
+body {
+    text-align: center;
+    /*  Picture from photo bank with free license used. https://www.pexels.com/photo/abstract-background-beach-color-355288/ */
+    background-image: url("pexels-photo-355288.jpeg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+h1 {
+    font-size: 2.95em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: whitesmoke;
+    margin: 40px auto;
+    letter-spacing: 4px;
+    text-shadow: -5px -5px 18px wheat;
+}
+
+/* Main content */
+.container {
+    display: inline;
+    justify-content: center;
+    margin: 0 70px 0 0;
+}
+.canvasContent {
+    display: flex;
+    justify-content: center;
+}
+#slideshow {
+    border: 3px solid rgb(36, 17, 206);
+    border-radius: 9px;
+    -webkit-border-radius: 9x;
+    -moz-border-radius: 9x;
+    -ms-border-radius: 9x;
+    -o-border-radius: 9x;
+    background-color: rgba(176, 176, 196, 0.9);
+    box-shadow: -5px 5px 18px wheat;
+}
+
+.controlMenu { 
+    display: inline-flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.arrows {
+    margin: 16% 9px;
+    width: 70px;
+    height: 42px;
+    font-weight: bold;
+    font-size: 1.4em;
+    border-radius: 5px;
+}
+.controlButtons, .effects {
+    width: 140px;
+    height: 50px;
+    margin: 20px 25px;
+    font-weight: bold;
+    font-size: 1.1em;
+    text-align: center;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border: 2px solid rgba(68, 144, 231, 0.8);
+}
+label {
+    margin: 22px 4px;
+    font-weight: bold;
+    font-size: 1.75em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: whitesmoke;
+    text-shadow: -5px -5px 18px wheat;
+}
+button:hover, .effects:hover, option:hover {
+    background-color: rgba(68, 144, 231, 0.8);
+    border: none;
+}
