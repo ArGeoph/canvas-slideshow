@@ -17,13 +17,22 @@ const initialize = () => {
     backButton = document.getElementById("backButton");
     forwardButton = document.getElementById("forwardButton");
 
-    //Preload all images to array
-    loadPicturesDetails().then((images) => preloadImages(images));    
+    //Set caption parameters
+    canvasContext.font = "bold 32px sans-serif";
+    canvasContext.fillStyle = "blue";
+    canvasContext.textAlign = "center";
+
+    //Print welcome messages and instructions on canvas
+    canvasContext.fillText("To start slideshow please press start", 500,  330);  
+    canvasContext.fillText("You can use buttons with arrows to change pictures manually", 500,  370);  
+    canvasContext.fillText("Enjoy!", 500,  410);  
+
+    //Preload all images to array        
+    loadPicturesDetails().then((images) => preloadImages(images));   
 
     //Add event listeners to control buttons
     slideshowSpeedController.addEventListener("change", () => {
         slideshowSpeed = slideshowSpeedController.value * 1000;
-        console.log("Slideshow speed changed to " + slideshowSpeed + " seconds");
 
         if (slideshowStarted) {
             clearInterval(slideshowInterval);
@@ -35,27 +44,12 @@ const initialize = () => {
     startStopButton.addEventListener("click", startStopSlideshow, false);
     randomSequentialButton.addEventListener("click", randomSequential, false);
     backwardForwardButton.addEventListener("click", changeSlideshowDirection, false);
-
     backButton.addEventListener("click", backButtonBehavior, false);
-    forwardButton.addEventListener("click", () => {
-
-        if (slideshowStarted && imageIncrement === -1) {
-            clearInterval(slideshowInterval);
-            if (imageCounter === preloadedImages.length - 1) {
-                imageCounter = 0;
-            }
-            else {
-                imageCounter++;
-            }
-            slideshowInterval = setInterval(showPictures, slideshowSpeed);
-        }
-        else if (!slideshowStarted) {
-            showPictures();
-        }
-       
-    }, false);   
+    forwardButton.addEventListener("click", forwardButtonBehavior, false);   
 };
 
+/*Buttonws event handlers behaviour
+=================================================*/
 const backButtonBehavior = () => {
     if (imageCounter === 0) {
         imageCounter = preloadedImages.length - 1;
@@ -67,27 +61,23 @@ const backButtonBehavior = () => {
         showPictures();
         imageCounter--;   
     }    
-}
-
-//Preload images
-const preloadImages = async (images) => {
-    let tmp;
-
-    for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
-        tmp = new Image();
-        tmp.src = images[imageIndex].fileLocation;
-
-        tmp.addEventListener("load", function(event) {
-            addImages(event, images[imageIndex].caption, imageIndex);
-        }, false);       
-    }
-
-    return preloadedImages;
 };
 
-const addImages = (event, imageCaption, imageIndex) => {
-    preloadedImages[imageIndex] = {"imageFile" : event.currentTarget, "imageCaption" : imageCaption};
-}
+const forwardButtonBehavior = () => {
+    if (slideshowStarted && imageIncrement === -1) {
+        clearInterval(slideshowInterval);
+        if (imageCounter === preloadedImages.length - 1) {
+            imageCounter = 0;
+        }
+        else {
+            imageCounter++;
+        }
+        slideshowInterval = setInterval(showPictures, slideshowSpeed);
+    }
+    else if (!slideshowStarted) {
+        showPictures();
+    }   
+};
 
 //Function changing slideshow flow direction
 const changeSlideshowDirection = () => {
@@ -119,24 +109,6 @@ const changeSlideshowDirection = () => {
         slideshowInterval = setInterval(showPictures, slideshowSpeed);
     } 
 };
-
-//Load asynchronously picture information from a .json file
-const loadPicturesDetails = async () => {
-    try {
-        const response = await fetch("picturesInfo.json");
-
-        if (response.ok) {
-            const responseJson = await response.json();
-            console.log(responseJson);
-            imagesDetails = await responseJson.pictures;
-            
-            return imagesDetails;
-        }
-    }
-    catch(networkError) {
-        console.log(networkError);
-    }
-}
 
 const startStopSlideshow = () => {
     if (slideshowStarted) {
@@ -188,6 +160,45 @@ const randomSequential = () => {
         shuffledImages = tmp;
     }
 };
+/*==================================================================================*/
+
+//Load asynchronously picture information from a .json file
+const loadPicturesDetails = async () => {
+    try {
+        const response = await fetch("picturesInfo.json");
+
+        if (response.ok) {
+            const responseJson = await response.json();
+            console.log(responseJson);
+            imagesDetails = await responseJson.pictures;
+            
+            return imagesDetails;
+        }
+    }
+    catch(networkError) {
+        console.log(networkError);
+    }
+};
+
+//Preload images
+const preloadImages = async (images) => {
+    let tmp;
+
+    for (let imageIndex = 0; imageIndex < images.length; imageIndex++) {
+        tmp = new Image();
+        tmp.src = images[imageIndex].fileLocation;
+
+        tmp.addEventListener("load", function(event) {
+            addImages(event, images[imageIndex].caption, imageIndex);
+        }, false);       
+    }
+
+    return preloadedImages;
+};
+
+const addImages = (event, imageCaption, imageIndex) => {
+    preloadedImages[imageIndex] = {"imageFile" : event.currentTarget, "imageCaption" : imageCaption};
+};
 
 //Function shuffling images
 const shuffleImages =  () => {
@@ -213,15 +224,7 @@ const showPictures = () => {
     //Clear canvas to draw new image
     canvasContext.clearRect(0, 0, canvasObject.width, canvasObject.height);
 
-    console.log(imageCounter);
-    //Set caption parameters
-    canvasContext.font = "bold 30px sans-serif";
-    canvasContext.textBaseline = "bottom";
-    canvasContext.fillStyle = "blue";
-    canvasContext.textAlign = "center";
-    
     let scalingFactor = canvasObject.height / preloadedImages[imageCounter].imageFile.height; 
-    preloadedImages[imageCounter].imageFile.classList.add("test");
 
     if (preloadedImages[imageCounter].imageFile.width < preloadedImages[imageCounter].imageFile.height) { //if image has potrait orientation  
         canvasContext.drawImage(preloadedImages[imageCounter].imageFile,  0.5 * (canvasObject.width - scalingFactor*preloadedImages[imageCounter].imageFile.width), 0, 
@@ -233,7 +236,6 @@ const showPictures = () => {
     }
 
     canvasContext.fillText(preloadedImages[imageCounter].imageCaption, 500,  630);  
-    //preloadedImages[imageCounter].imageFile.classList.remove("test");
 
     if (imageIncrement === 1 && imageCounter === preloadedImages.length-1) {
         imageCounter = 0;
