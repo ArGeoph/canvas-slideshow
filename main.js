@@ -1,6 +1,6 @@
 //HTML objects that will be used in application
 let canvasObject, canvasContext;
-let backButton, forwardButton, startStopButton, randomSequentialButton, backwardForwardButton, effectsList;
+let backButton, forwardButton, startStopButton, randomSequentialButton, backwardForwardButton;
 let imagesDetails, preloadedImages = [], shuffledImages = []; //Array which will be used to store information about pictures loaded from .json file
 let slideshowStarted = false, slideshowInterval, slideshowSpeed, slideshowSpeedController, imageCounter = 0, imageIncrement = 1; //Flags used to control slideshow
 
@@ -12,19 +12,15 @@ const initialize = () => {
     startStopButton = document.getElementById("startStopButton");
     randomSequentialButton = document.getElementById("randomSequentialButton");
     backwardForwardButton = document.getElementById("backwardForwardButton");
-    effectsList = document.getElementById("effectsList");
     slideshowSpeedController = document.getElementById("slideshowSpeed");
     slideshowSpeed = slideshowSpeedController.value * 1000;
     backButton = document.getElementById("backButton");
     forwardButton = document.getElementById("forwardButton");
 
     //Preload all images to array
-    loadPicturesDetails().then((images) => preloadImages(images));
-    
-    //Shuffle image for random mode
+    loadPicturesDetails().then((images) => preloadImages(images));    
 
-
-
+    //Add event listeners to control buttons
     slideshowSpeedController.addEventListener("change", () => {
         slideshowSpeed = slideshowSpeedController.value * 1000;
         console.log("Slideshow speed changed to " + slideshowSpeed + " seconds");
@@ -39,7 +35,7 @@ const initialize = () => {
     startStopButton.addEventListener("click", startStopSlideshow, false);
     randomSequentialButton.addEventListener("click", randomSequential, false);
     backwardForwardButton.addEventListener("click", changeSlideshowDirection, false);
-    // effectsList.addEventListener("change", setCurrentEffect, false);
+
     backButton.addEventListener("click", backButtonBehavior, false);
     forwardButton.addEventListener("click", () => {
 
@@ -73,7 +69,7 @@ const backButtonBehavior = () => {
     }    
 }
 
-//
+//Preload images
 const preloadImages = async (images) => {
     let tmp;
 
@@ -124,31 +120,7 @@ const changeSlideshowDirection = () => {
     } 
 };
 
-// //Function sending asyncrnous request to fetch data from .json file and store it as a JavaScript array
-// const loadPicturesDetails = () => {
-//     try {
-//         let request = new XMLHttpRequest();
-
-//         request.onreadystatechange = () => {
-//             if (request.readyState === 4 && request.status === 200) {
-//                 images = JSON.parse(request.responseText).pictures;
-//                 console.log(images);
-//                 images.forEach((picture, index) => {
-//                     console.log(index, picture.fileLocation, picture.caption);
-//                 })
-//             }
-//         }
-
-//         request.open("Get", "picturesInfo.json", true);
-//         request.responseType = "text";
-//         request.send();
-//     }
-//     catch(networkError) {
-//         console.log(networkError);
-//     }
-// };
-
-
+//Load asynchronously picture information from a .json file
 const loadPicturesDetails = async () => {
     try {
         const response = await fetch("picturesInfo.json");
@@ -234,10 +206,7 @@ const shuffleImages =  () => {
             }            
         }      
     });
-
-    console.log("Shuffled pictures");
-    console.log(shuffledImages);
-}
+};
 
 //Function used to show pictures on the canvas
 const showPictures = () => {
@@ -252,6 +221,7 @@ const showPictures = () => {
     canvasContext.textAlign = "center";
     
     let scalingFactor = canvasObject.height / preloadedImages[imageCounter].imageFile.height; 
+    preloadedImages[imageCounter].imageFile.classList.add("test");
 
     if (preloadedImages[imageCounter].imageFile.width < preloadedImages[imageCounter].imageFile.height) { //if image has potrait orientation  
         canvasContext.drawImage(preloadedImages[imageCounter].imageFile,  0.5 * (canvasObject.width - scalingFactor*preloadedImages[imageCounter].imageFile.width), 0, 
@@ -262,7 +232,8 @@ const showPictures = () => {
         scalingFactor * preloadedImages[imageCounter].imageFile.width, scalingFactor * preloadedImages[imageCounter].imageFile.height);                          
     }
 
-    canvasContext.fillText(preloadedImages[imageCounter].imageCaption, 500,  550);  
+    canvasContext.fillText(preloadedImages[imageCounter].imageCaption, 500,  630);  
+    //preloadedImages[imageCounter].imageFile.classList.remove("test");
 
     if (imageIncrement === 1 && imageCounter === preloadedImages.length-1) {
         imageCounter = 0;

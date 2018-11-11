@@ -5,7 +5,6 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
-
 h1 {
     font-size: 2.95em;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -34,14 +33,14 @@ h1 {
     -o-border-radius: 9x;
     background-color: rgba(176, 176, 196, 0.9);
     box-shadow: -5px 5px 18px wheat;
+    min-width: 500px;
+    min-height: 332px;
 }
-
 .controlMenu { 
     display: inline-flex;
     justify-content: center;
     align-content: center;
 }
-
 .arrows {
     margin: 16% 9px;
     width: 70px;
@@ -50,11 +49,9 @@ h1 {
     font-size: 1.4em;
     border-radius: 5px;
 }
-
 .arrows:hover {
     border: 2px solid rgba(68, 144, 231, 0.8);
 }
-
 .controlButtons, .effects {
     width: 140px;
     height: 50px;
@@ -81,8 +78,6 @@ button:hover, .effects:hover, option:hover {
     background-color: rgba(68, 144, 231, 0.8);
     border: none;
 }
-
 .arrows:disabled, .arrows:disabled:hover, #backwardForwardButton:disabled, #backwardForwardButton:disabled:hover {
-    background-color: rgba(112, 112, 112, 0.8);
-    border: none;
+    background-color: rgba(112, 112, 112, 0.8);  
 }
