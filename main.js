@@ -48,7 +48,7 @@ const initialize = () => {
     forwardButton.addEventListener("click", forwardButtonBehavior, false);   
 };
 
-/*Buttonws event handlers behaviour
+/*Buttons event handlers behaviour
 =================================================*/
 const backButtonBehavior = () => {
     if (imageCounter === 0) {
