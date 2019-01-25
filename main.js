@@ -2,7 +2,7 @@
 let canvasObject, canvasContext;
 let backButton, forwardButton, startStopButton, randomSequentialButton, backwardForwardButton;
 let imagesDetails, preloadedImages = [], shuffledImages = []; //Array which will be used to store information about pictures loaded from .json file
-let slideshowStarted = false, slideshowInterval, slideshowSpeed, slideshowSpeedController, imageCounter = 0, imageIncrement = 1; //Flags used to control slideshow
+let slideshowStarted = false, slideshowInterval, slideshowSpeed, slideshowSpeedController, imageCounter = 0, imageIncrement = 1; //used to control slideshow
 
 //Function called to initialize all objects when page is loaded for the first time
 const initialize = () => {
@@ -18,14 +18,13 @@ const initialize = () => {
     forwardButton = document.getElementById("forwardButton");
 
     //Set caption parameters
-    canvasContext.font = "bold 32px sans-serif";
-    canvasContext.fillStyle = "blue";
+    canvasContext.font = "bold 26px sans-serif";
+    canvasContext.fillStyle = "yellow";
     canvasContext.textAlign = "center";
 
     //Print welcome messages and instructions on canvas
     canvasContext.fillText("To start slideshow please press start", 500,  330);  
     canvasContext.fillText("You can use buttons with arrows to change pictures manually", 500,  370);  
-    canvasContext.fillText("Enjoy!", 500,  410);  
 
     //Preload all images to array        
     loadPicturesDetails().then((images) => preloadImages(images));   
@@ -165,7 +164,9 @@ const randomSequential = () => {
 //Load asynchronously picture information from a .json file
 const loadPicturesDetails = async () => {
     try {
-        const response = await fetch("picturesInfo.json");
+        const response = await fetch("picturesInfo.json", {
+            mode: 'no-cors' // 'cors' by default
+          });
 
         if (response.ok) {
             const responseJson = await response.json();
@@ -179,6 +180,7 @@ const loadPicturesDetails = async () => {
         console.log(networkError);
     }
 };
+
 
 //Preload images
 const preloadImages = async (images) => {

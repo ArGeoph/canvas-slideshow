@@ -1,10 +1,22 @@
 body {
     text-align: center;
-    /*  Picture from photo bank with free license used. https://www.pexels.com/photo/abstract-background-beach-color-355288/ */
-    background-image: url("pexels-photo-355288.jpeg");
+    background-image: url("pexels-photo-355288.jpeg");     /*  Picture from photo bank with free license used. https://www.pexels.com/photo/abstract-background-beach-color-355288/ */
     background-size: cover;
     background-attachment: fixed;
 }
+
+/* Main content */
+.container {
+    display: inline;
+    justify-content: center;
+    margin: 0 70px 0 0;
+}
+
+.canvasContent {
+    display: flex;
+    justify-content: center;
+}
+
 h1 {
     font-size: 2.95em;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -14,16 +26,6 @@ h1 {
     text-shadow: -5px -5px 18px wheat;
 }
 
-/* Main content */
-.container {
-    display: inline;
-    justify-content: center;
-    margin: 0 70px 0 0;
-}
-.canvasContent {
-    display: flex;
-    justify-content: center;
-}
 #slideshow {
     border: 3px solid rgb(36, 17, 206);
     border-radius: 9px;
@@ -36,11 +38,13 @@ h1 {
     min-width: 500px;
     min-height: 332px;
 }
+
 .controlMenu { 
     display: inline-flex;
     justify-content: center;
     align-content: center;
 }
+
 .arrows {
     margin: 16% 9px;
     width: 70px;
@@ -49,9 +53,11 @@ h1 {
     font-size: 1.4em;
     border-radius: 5px;
 }
+
 .arrows:hover {
     border: 2px solid rgba(68, 144, 231, 0.8);
 }
+
 .controlButtons, .effects {
     width: 140px;
     height: 50px;
@@ -66,6 +72,8 @@ h1 {
     -o-border-radius: 5px;
     border: 2px solid rgba(68, 144, 231, 0.8);
 }
+
+
 label {
     margin: 22px 4px;
     font-weight: bold;
@@ -74,10 +82,12 @@ label {
     color: whitesmoke;
     text-shadow: -5px -5px 18px wheat;
 }
-button:hover, .effects:hover, option:hover {
-    background-color: rgba(68, 144, 231, 0.8);
+
+button:hover,  option:hover {
+    background-color: rgba(255, 174, 0, 0.986);
     border: none;
 }
+
 .arrows:disabled, .arrows:disabled:hover, #backwardForwardButton:disabled, #backwardForwardButton:disabled:hover {
     background-color: rgba(112, 112, 112, 0.8);  
 }
